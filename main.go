@@ -15,8 +15,6 @@ var timerLock sync.RWMutex
 var totalTimerLock sync.RWMutex
 var timerOff = false
 
-//Setup /////
-
 //Set up timers
 func init() {
 	mapOfTimers = make(map[string]*time.Time)
@@ -43,8 +41,6 @@ func StartTimerOverride(key string) string {
 	return key
 }
 
-//Print /////
-
 //PrintTimer is used to print a specific timer by key; but will be ignored if the timer is turned off
 func PrintTimer(key, comment string) {
 	if timerOff {
@@ -63,11 +59,16 @@ func PrintTimerOverride(key, comment string) {
 	timerLock.Unlock()
 }
 
-//PrintTotalTime is used to print all times in the timer map
+//PrintTotalTime is used to print all times in the timer map; but will be ignored if the timer is turned off
 func PrintTotalTime() {
 	if timerOff {
 		return
 	}
+	PrintTotalTimeOverride()
+}
+
+//PrintTotalTimeOverride is used to print all times in the timer map
+func PrintTotalTimeOverride() {
 	totalTimerLock.Lock()
 	printFormatted()
 	totalTimerLock.Unlock()
